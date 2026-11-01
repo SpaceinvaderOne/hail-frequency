@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Container version="2">
+  <Name>HailFrequency</Name>
+  <Repository>ghcr.io/spaceinvaderone/hailfrequency:latest</Repository>
+  <Registry>https://ghcr.io/spaceinvaderone/hailfrequency</Registry>
+  <Branch/>
+  <Network>bridge</Network>
+  <Privileged>false</Privileged>
+  <Shell>bash</Shell>
+  <WebUI>http://[IP]:[PORT:8069]/</WebUI>
+  <Support>https://github.com/SpaceinvaderOne/hail-frequency/issues</Support>
+  <Project>https://github.com/SpaceinvaderOne/hail-frequency</Project>
+  <ReadMe>https://github.com/SpaceinvaderOne/hail-frequency#readme</ReadMe>
+  <Overview>Voice control for Emby and Jellyfin from your phone. Hold the mic, say what you want and it happens on your TV: play a film or the next episode of a series, pause, resume, skip, seek, volume, subtitles, audio language, shuffle a series or a genre, sleep timers and what's new. Runs entirely on your own hardware with an LCARS style interface.&#xD;
+&#xD;
+Companion containers, all from Community Apps: Speaches (speech to text, required), Ollama (optional, for conversational phrasing), and a text to speech server for spoken replies (optional, Speaches does this too).&#xD;
+&#xD;
+Phones only allow the microphone over HTTPS, so turn on Use Tailscale below, set a hostname and set Tailscale Serve to Serve. That gives the container its own https address on your tailnet with nothing forwarded and nothing exposed to the internet. Each phone needs the Tailscale app signed in to the same tailnet. Not Funnel. Full setup guide in the README.</Overview>
+  <Category>MediaServer:Video Tools:Other</Category>
+  <Icon>https://raw.githubusercontent.com/SpaceinvaderOne/Docker-Templates-Unraid/master/spaceinvaderone/docker_icons/HailFrequency.png</Icon>
+  <ExtraParams>--restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>Emby or Jellyfin, and Speaches (Whisper speech to text) with a model downloaded. For the microphone to work on a phone the app must be reached over HTTPS: on Unraid 7 turn on Use Tailscale in this template and set Tailscale Serve to Serve, with MagicDNS and HTTPS Certificates enabled on your tailnet. The Tailscale plugin is not needed for this.</Requires>
+  <Config
+    Type="Port"
+    Name="Web Interface"
+    Target="8069"
+    Default="8069"
+    Mode="tcp"
+    Display="always"
+    Required="true"
+    Description="HailFrequency web UI port."
+  />
+  <Config
+    Type="Path"
+    Name="App Data"
+    Target="/data"
+    Default="/mnt/user/appdata/hailfrequency"
+    Mode="rw"
+    Display="always"
+    Required="true"
+    Description="Persistent storage for the database and settings. Give HailFrequency its own folder."
+  />
+  <Config
+    Type="Variable"
+    Name="Data Directory"
+    Target="HF_DATA_DIR"
+    Default="/data"
+    Mode=""
+    Display="advanced"
+    Required="true"
+    Description="Internal path for persistent data. Must match the container side of the App Data volume mount. Do not change unless you know what you are doing."
+    Mask="false"
+  />
+  <Config
+    Type="Variable"
+    Name="Admin Password Reset"
+    Target="HF_ADMIN_RESET_PASSWORD"
+    Default=""
+    Mode=""
+    Display="advanced"
+    Required="false"
+    Description="RECOVERY ONLY: set to a new password (8+ chars) and restart to reset the admin login. Remove the value and restart again afterwards."
+    Mask="true"
+  />
+  <Config
+    Type="Variable"
+    Name="Trusted proxies"
+    Target="HF_TRUSTED_PROXIES"
+    Default=""
+    Mode=""
+    Display="advanced"
+    Required="false"
+    Description="Comma-separated IPs of reverse proxies whose X-Forwarded-For / X-Forwarded-Proto headers may be trusted. Leave unset on Unraid: the Tailscale integration is not a proxy."
+    Mask="false"
+  />
+  <Config
+    Type="Variable"
+    Name="PUID"
+    Target="PUID"
+    Default="99"
+    Mode=""
+    Display="advanced"
+    Required="false"
+    Description="User ID for file permissions (default: 99 = nobody on Unraid)."
+    Mask="false"
+  />
+  <Config
+    Type="Variable"
+    Name="PGID"
+    Target="PGID"
+    Default="100"
+    Mode=""
+    Display="advanced"
+    Required="false"
+    Description="Group ID for file permissions (default: 100 = users on Unraid)."
+    Mask="false"
+  />
+</Container>

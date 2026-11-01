@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="lid" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2C56B"/>
+      <stop offset="1" stop-color="#C9922E"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3A3A42"/>
+      <stop offset="1" stop-color="#1B1B20"/>
+    </linearGradient>
+    <linearGradient id="slat" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#B8882F"/>
+      <stop offset="1" stop-color="#8E6A22"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#F2B441" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#F2B441" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="jewel-r" cx="0.35" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#FF9A8F"/><stop offset="1" stop-color="#C41E1E"/>
+    </radialGradient>
+    <radialGradient id="jewel-a" cx="0.35" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#FFE3A3"/><stop offset="1" stop-color="#D9901A"/>
+    </radialGradient>
+    <radialGradient id="jewel-b" cx="0.35" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#DDF4FF"/><stop offset="1" stop-color="#3C9BD6"/>
+    </radialGradient>
+    <pattern id="mesh" width="14" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 7 H14 M7 0 V14" stroke="#7A5514" stroke-width="2.2" opacity="0.75"/>
+    </pattern>
+  </defs>
+
+  <!-- backdrop -->
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="#09090C"/>
+  <rect x="10" y="10" width="492" height="492" rx="102" fill="none" stroke="#F2B441" stroke-opacity="0.32" stroke-width="3"/>
+
+  <!-- antenna glow -->
+  <circle cx="264" cy="150" r="140" fill="url(#glow)"/>
+
+  <!-- lid: hinged along the top edge of the body, flipped open -->
+  <g transform="translate(264 237)">
+    <rect x="-88" y="-160" width="176" height="168" rx="18" fill="url(#lid)" stroke="#8C6417" stroke-width="5"/>
+    <rect x="-72" y="-146" width="144" height="134" rx="10" fill="url(#mesh)" stroke="#8C6417" stroke-width="2.5"/>
+    <rect x="-88" y="-160" width="176" height="24" rx="12" fill="#FFF1C8" opacity="0.18"/>
+  </g>
+
+  <!-- hinge -->
+  <rect x="170" y="227" width="188" height="20" rx="10" fill="#4A4A54" stroke="#767682" stroke-width="3"/>
+  <circle cx="186" cy="237" r="4" fill="#8A8A96"/>
+  <circle cx="342" cy="237" r="4" fill="#8A8A96"/>
+
+  <!-- body -->
+  <rect x="176" y="236" width="176" height="216" rx="22" fill="url(#body)" stroke="#5E5E68" stroke-width="4"/>
+  <rect x="184" y="244" width="160" height="10" rx="5" fill="#6A6A74" opacity="0.55"/>
+
+  <!-- moire dial -->
+  <circle cx="222" cy="298" r="32" fill="#D7DAE1" stroke="#101014" stroke-width="3"/>
+  <circle cx="222" cy="298" r="24" fill="none" stroke="#5F636C" stroke-width="2.5"/>
+  <circle cx="222" cy="298" r="16" fill="none" stroke="#5F636C" stroke-width="2.5"/>
+  <circle cx="222" cy="298" r="8" fill="none" stroke="#5F636C" stroke-width="2.5"/>
+  <circle cx="222" cy="298" r="2.5" fill="#101014"/>
+
+  <!-- jewel buttons -->
+  <circle cx="306" cy="272" r="11" fill="url(#jewel-r)" stroke="#101014" stroke-width="2.5"/>
+  <circle cx="306" cy="304" r="11" fill="url(#jewel-a)" stroke="#101014" stroke-width="2.5"/>
+  <circle cx="306" cy="336" r="11" fill="url(#jewel-b)" stroke="#101014" stroke-width="2.5"/>
+
+  <!-- divider -->
+  <rect x="190" y="356" width="148" height="4" rx="2" fill="#5E5E68"/>
+
+  <!-- speaker slats -->
+  <rect x="196" y="372" width="136" height="9" rx="4.5" fill="url(#slat)"/>
+  <rect x="196" y="388" width="136" height="9" rx="4.5" fill="url(#slat)"/>
+  <rect x="196" y="404" width="136" height="9" rx="4.5" fill="url(#slat)"/>
+  <rect x="196" y="420" width="136" height="9" rx="4.5" fill="url(#slat)"/>
+  <rect x="196" y="436" width="136" height="7" rx="3.5" fill="url(#slat)"/>
+</svg>

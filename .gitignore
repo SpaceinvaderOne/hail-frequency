@@ -1,0 +1,31 @@
+# Hidden files and directories (editor state, local tooling, OS files)
+.*
+!.gitignore
+!.dockerignore
+!.github/
+
+# Markdown except the README
+*.md
+!README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+
+# App data: the SQLite database holds media server API keys and tokens
+config/
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+
+# OS / editor
+Thumbs.db
+*.swp
+
+# Scratch
+/tmp/
+*.log

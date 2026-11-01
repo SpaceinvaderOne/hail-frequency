@@ -1,0 +1,25 @@
+# Hidden files and directories
+.*
+!.dockerignore
+
+# Documentation, artwork and deployment files: not needed inside the image
+*.md
+screenshots/
+references/
+icon.png
+icon.svg
+unraid-template.xml
+docker-compose.yml
+serve.json
+
+# App data
+config/
+data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+
+# Python artefacts
+**/__pycache__
+**/*.pyc

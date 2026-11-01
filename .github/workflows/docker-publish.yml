@@ -1,0 +1,96 @@
+name: Test, build and publish image
+
+# Runs the test suite from the Dockerfile's test stage first, then publishes
+# ghcr.io/<owner>/hailfrequency on version tags (v1.2.3) and on pushes to
+# main (tagged :edge). Pull requests get the tests only. The version stamped
+# into the image comes from the git tag, so Settings → About and /api/health
+# show the real build.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Build test stage
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: test
+          load: true
+          push: false
+          tags: hailfrequency:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run tests
+        run: docker run --rm hailfrequency:test
+
+  build:
+    needs: test
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute version + build date
+        id: meta
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=edge-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          fi
+          echo "date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+
+      - name: Docker tags
+        id: tags
+        run: |
+          # GHCR/OCI image paths must be all-lowercase; github.repository_owner
+          # preserves the account's display case, so lowercase
+          # it here rather than relying on it directly in tag strings.
+          IMAGE="ghcr.io/$(echo '${{ github.repository_owner }}' | tr '[:upper:]' '[:lower:]')/hailfrequency"
+          TAGS="${IMAGE}:edge"
+          if [[ "${GITHUB_REF}" == refs/tags/v* ]]; then
+            V="${GITHUB_REF#refs/tags/}"
+            TAGS="${IMAGE}:latest,${IMAGE}:${V}"
+          fi
+          echo "tags=${TAGS}" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          build-args: |
+            HF_VERSION=${{ steps.meta.outputs.version }}
+            HF_BUILD_DATE=${{ steps.meta.outputs.date }}
+          labels: |
+            org.opencontainers.image.version=${{ steps.meta.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

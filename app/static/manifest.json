@@ -1,0 +1,18 @@
+{
+  "name": "HailFrequency",
+  "short_name": "HailFreq",
+  "description": "Voice control for your media server",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/static/img/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
